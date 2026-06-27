@@ -1,5 +1,10 @@
 import os, shutil
 from markdown_blocks import markdown_to_html_node
+import sys
+
+base_path = '/'
+if len(sys.argv) > 1:
+    base_path = sys.argv[1]
 
 def copy_folder_and_files(source_directory, destination_directory) -> None:
     if os.path.exists(destination_directory):
@@ -38,6 +43,8 @@ def generate_page(from_path, template_path, dest_path):
     title = extract_title(from_path_content)
     template_path_content = template_path_content.replace('{{ Title }}', title)
     template_path_content = template_path_content.replace('{{ Content }}', content)
+    template_path_content = template_path_content.replace('href="/', f'href="{base_path}')
+    template_path_content = template_path_content.replace('src="/', f'src="{base_path}')
     os.makedirs(os.path.dirname(dest_path), exist_ok=True)
     with open(dest_path, "w", encoding="utf-8") as file:
         file.write(template_path_content)
@@ -54,12 +61,16 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
 
 
 def main():
+    base_path = '/'
+    if len(sys.argv) > 1:
+        base_path = sys.argv[1]
+
     script_path = os.path.abspath(__file__)
     parent_path = os.path.dirname(script_path)
     base_dir = os.path.dirname(parent_path)
 
     source_dir = os.path.join(base_dir, 'static')
-    destination_dir = os.path.join(base_dir, 'public')
+    destination_dir = os.path.join(base_dir, 'docs')
     copy_folder_and_files(source_dir, destination_dir)
 
     # generate_page(from_path='content/index.md', template_path='template.html', dest_path='public/index.html')
