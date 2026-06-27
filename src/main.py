@@ -61,10 +61,6 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
 
 
 def main():
-    base_path = '/'
-    if len(sys.argv) > 1:
-        base_path = sys.argv[1]
-
     script_path = os.path.abspath(__file__)
     parent_path = os.path.dirname(script_path)
     base_dir = os.path.dirname(parent_path)
@@ -77,6 +73,6 @@ def main():
     # generate_page(from_path='content/blog/glorfindel/index.md', template_path='template.html', dest_path='public/blog/glorfindel/index.html')
     # generate_page(from_path='content/blog/majesty/index.md', template_path='template.html', dest_path='public/blog/majesty/index.html')
     # generate_page(from_path='content/blog/tom/index.md', template_path='template.html', dest_path='public/blog/tom/index.html')
-    generate_pages_recursive(dir_path_content='content', template_path='template.html', dest_dir_path='public')
+    generate_pages_recursive(dir_path_content='content', template_path='template.html', dest_dir_path='docs')
 
 main()
